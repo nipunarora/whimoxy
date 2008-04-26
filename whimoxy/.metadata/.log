@@ -1,0 +1,30 @@
+!SESSION 2008-04-25 00:24:28.756 -----------------------------------------------
+eclipse.buildId=M20070921-1145
+java.version=1.6.0_03
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.core.resources 2 10035 2008-04-25 00:26:05.790
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.ui 4 4 2008-04-25 00:31:59.343
+!MESSAGE Invalid preference page path: Cache
+!SESSION 2008-04-25 00:39:50.726 -----------------------------------------------
+eclipse.buildId=M20070921-1145
+java.version=1.6.0_03
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.core.resources 2 10035 2008-04-25 00:40:04.167
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+!SESSION 2008-04-25 01:16:07.128 -----------------------------------------------
+eclipse.buildId=M20070921-1145
+java.version=1.6.0_03
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.jdt.debug.ui 4 4 2008-04-26 02:46:17.492
+!MESSAGE Marker id 70 not found.

@@ -1,0 +1,18 @@
+import java.awt.*;
+public class LabledPoint extends java.awt.Point {
+	int x;
+	int y;
+	private String text;
+	public LabledPoint(int x,int y,String text)
+	{
+	//super(x,y);
+	this.text=text;
+	this.x=x;
+	this.y=y;
+	
+	}
+	public void draw(Graphics g)
+	{
+		g.fillOval(x, y, 10, 10);
+	}
+}

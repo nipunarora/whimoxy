@@ -1,0 +1,3 @@
+#Sat Apr 26 02:51:25 EDT 2008
+prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<watchExpressions>\r\n<expression enabled\="true" text\="sources"/>\r\n<expression enabled\="true" text\="sources"/>\r\n<expression enabled\="true" text\="source[1]"/>\r\n</watchExpressions>\r\n
+eclipse.preferences.version=1

@@ -1,0 +1,28 @@
+import java.io.*;
+public class EncryptReader extends Reader {
+	
+	public void close()
+	{
+		
+	}
+	public int read(char [] a,int b,int c)
+	{
+		return 0;	
+	}
+	public int read()
+	{
+		int c= read();
+		return(int)(decrypt((char)c));
+	}
+	private char decrypt(char c)
+	{
+		if('D'<=c && c<='Z' || 'd'<=c && c<='z')
+		{
+			return c-=3;
+		}
+		else
+		{
+			return c = (char)(c+23);
+		}
+	}
+}

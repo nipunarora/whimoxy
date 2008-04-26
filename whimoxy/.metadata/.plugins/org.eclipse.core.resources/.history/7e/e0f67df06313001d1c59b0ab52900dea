@@ -1,0 +1,14 @@
+
+public class testator {
+	public static void main(String[] args)
+	{
+		EncryptWriter writer = new EncryptWriter();
+		EncryptReader reader = new EncryptReader();
+		writer.write("XYZ");
+		writer.display();
+		reader.read("XYZ");
+		reader.display();
+		LabledPoint test = new LabledPoint(3,3,"he");
+	
+	}
+}

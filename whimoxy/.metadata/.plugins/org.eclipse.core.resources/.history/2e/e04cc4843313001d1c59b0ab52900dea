@@ -1,0 +1,11 @@
+
+public class testator {
+	public static void main(String[] args)
+	{
+		EncryptWriter writer = new EncryptWriter();
+		writer.write("ABC");
+		writer.display();
+		
+	
+	}
+}

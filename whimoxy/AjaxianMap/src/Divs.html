@@ -1,0 +1,257 @@
+<html>
+<head>
+<title>ANM Maps</title>
+<style type="text/css">
+h1 {
+font: 20pt sans-serif;
+}
+#outerDiv {
+height: 600px;
+width: 800px;
+border: 1px solid black;
+position: relative;
+overflow: hidden;
+}
+#innerDiv {
+position: relative;
+left: 0px;
+top: 0px;
+}
+#toggleZoomDiv {
+position: absolute;
+top: 10px;
+left: 10px;
+z-index: 1;
+width: 72px;
+height: 30px;
+}
+#togglePushPinDiv {
+position: absolute;
+top: 10px;
+left: 87px;
+z-index: 1;
+width: 72px;
+height: 30px;
+}
+</style>
+<script language="javascript"
+src="browserdetect_lite.js"
+type="text/javascript">
+</script>
+<script language="javascript"
+src="opacity.js"
+type="text/javascript">
+</script>
+<script type="text/javascript">
+// constants
+var viewportWidth = 800;
+var viewportHeight = 600;
+var tileSize = 100;
+var zoom = 0;
+var zoomSizes = [ [ "2000px", "1400px" ], [ "1500px", "1050px" ] ];
+// used to control moving the map div
+var dragging = false;
+var top;
+var left;
+var dragStartTop;
+var dragStartLeft;
+
+
+
+
+function init() {
+// make inner div big enough to display the map
+setInnerDivSize(zoomSizes[zoom][0], zoomSizes[zoom][1]);
+// wire up the mouse listeners to do dragging
+var outerDiv = document.getElementById("outerDiv");
+outerDiv.onmousedown = startMove;
+outerDiv.onmousemove = processMove;
+outerDiv.onmouseup = stopMove;
+// necessary to enable dragging on IE
+outerDiv.ondragstart = function() { return false; }
+// fix the toggle divs to be transparent in IE
+new OpacityObject('toggleZoomDiv','zoom').setBackground();
+new OpacityObject('togglePushPinDiv','pushpin').setBackground();
+checkTiles();
+}
+
+
+
+
+function startMove(event) {
+// necessary for IE
+if (!event) event = window.event;
+dragStartLeft = event.clientX;
+dragStartTop = event.clientY;
+var innerDiv = document.getElementById("innerDiv");
+innerDiv.style.cursor = "-moz-grab";
+top = stripPx(innerDiv.style.top);
+left = stripPx(innerDiv.style.left);
+dragging = true;
+return false;
+}
+
+
+
+
+function processMove(event) {
+if (!event) event = window.event; // for IE
+var innerDiv = document.getElementById("innerDiv");
+if (dragging) {
+innerDiv.style.top = parseFloat(top) + (event.clientY - dragStartTop);
+innerDiv.style.left = parseFloat(left) + (event.clientX - dragStartLeft);
+}
+checkTiles();
+}
+
+
+
+function checkTiles() {
+// check which tiles should be visible in the inner div
+var visibleTiles = getVisibleTiles();
+// add each tile to the inner div, checking first to see
+// if it has already been added
+var innerDiv = document.getElementById("innerDiv");
+var visibleTilesMap = {};
+for (i = 0; i < visibleTiles.length; i++) {
+var tileArray = visibleTiles[i];
+var tileName = "x" + tileArray[0] + "y" + tileArray[1] + "z" + zoom;
+visibleTilesMap[tileName] = true;
+var img = document.getElementById(tileName);
+if (!img) {
+img = document.createElement("img");
+img.src = tileName + ".jpg";
+img.style.position = "absolute";
+img.style.left = (tileArray[0] * tileSize) + "px";
+img.style.top = (tileArray[1] * tileSize) + "px";
+img.style.zIndex = 0;
+img.setAttribute("id", tileName);
+innerDiv.appendChild(img);
+}
+}
+var imgs = innerDiv.getElementsByTagName("img");
+for (i = 0; i < imgs.length; i++) {
+var id = imgs[i].getAttribute("id");
+if (!visibleTilesMap[id]) {
+innerDiv.removeChild(imgs[i]);
+i--; // compensate for live nodelist
+}
+}
+}
+
+
+
+
+function getVisibleTiles() {
+var innerDiv = document.getElementById("innerDiv");
+var mapX = stripPx(innerDiv.style.left);
+var mapY = stripPx(innerDiv.style.top);
+var startX = Math.abs(Math.floor(mapX / tileSize)) - 1;
+var startY = Math.abs(Math.floor(mapY / tileSize)) - 1;
+var tilesX = Math.ceil(viewportWidth / tileSize) + 1;
+var tilesY = Math.ceil(viewportHeight / tileSize) + 1;
+var visibleTileArray = [];
+var counter = 0;
+for (x = startX; x < (tilesX + startX); x++) {
+for (y = startY; y < (tilesY + startY); y++) {
+visibleTileArray[counter++] = [x, y];
+}
+}
+return visibleTileArray;
+}
+
+
+
+function stopMove() {
+var innerDiv = document.getElementById("innerDiv");
+innerDiv.style.cursor = "";
+dragging = false;
+}
+
+
+function stripPx(value) {
+if (value == "") return 0;
+return parseFloat(value.substring(0, value.length - 2));
+}
+
+
+
+function setInnerDivSize(width, height) {
+var innerDiv = document.getElementById("innerDiv");
+innerDiv.style.width = width;
+innerDiv.style.height = height;
+}
+
+
+
+function toggleZoom() {
+ if(zoom == 0)
+ {
+ zoom=1;
+ }
+ else
+ zoom=0;
+var innerDiv = document.getElementById("innerDiv");
+var imgs = innerDiv.getElementsByTagName("img");
+while (imgs.length > 0) innerDiv.removeChild(imgs[0]);
+setInnerDivSize(zoomSizes[zoom][0], zoomSizes[zoom][1]);
+if (document.getElementById("pushPin")) togglePushPin();
+checkTiles();
+}
+
+
+function togglePushPin() {
+//document.write("here");
+var pinImage = document.getElementById("pushPin");
+if (pinImage) {
+pinImage.parentNode.removeChild(pinImage);
+var dialog = document.getElementById("pinDialog");
+dialog.parentNode.removeChild(dialog);
+return;
+}
+
+
+var innerDiv = document.getElementById("innerDiv");
+pinImage = document.createElement("div");
+pinImage.style.position = "absolute";
+pinImage.style.left = (zoom == 0) ? "850px" : "630px";
+pinImage.style.top = (zoom == 0) ? "570px" : "420px";
+pinImage.style.width = "37px";
+pinImage.style.height = "34px";
+pinImage.style.zIndex = 1;
+pinImage.setAttribute("id", "pushPin");
+innerDiv.appendChild(pinImage);
+new OpacityObject('pushPin','pushpin').setBackground();
+var dialog = document.createElement("div");
+dialog.style.position = "absolute";
+dialog.style.left = (stripPx(pinImage.style.left) - 90) + "px";
+dialog.style.top = (stripPx(pinImage.style.top) - 210) + "px";
+dialog.style.width = "309px";
+dialog.style.height = "229px";
+dialog.style.zIndex = 2;
+dialog.setAttribute("id", "pinDialog");
+dialog.innerHTML = "<table height='80%' width='100%'>" +
+"<tr><td align='center'>NEW YORK BABY!</td></tr></table>";
+innerDiv.appendChild(dialog);
+new OpacityObject('pinDialog','resources/images/dialog').setBackground();
+}
+
+
+
+</script>
+</head>
+<body onload="init()">
+<p>
+<h1>News Feed Maps</h1>
+</p>
+<div id="outerDiv">
+<div id="toggleZoomDiv" onclick="toggleZoom()">
+</div>
+<div id="togglePushPinDiv" onclick="togglePushPin()">
+</div>
+<div id="innerDiv" style="z-index: 0">
+
+</div>
+</div>
+</body>
+</html>
