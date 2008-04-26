@@ -1,0 +1,29 @@
+import java.io.*;
+public class EncryptWriter extends Writer  {
+	public void flush()
+	{
+		
+	}
+	public void close()
+	{
+		
+	}
+	public void write(char [] a,int b,int c)
+	{
+		
+	}
+	
+	private char encrypt(char c)
+	{
+		if('A'<c && c<='W' || 'a'<=c && c<='W' )
+		{
+			 c+=3;
+		}
+		else
+		{
+			c = (char)(c-23);
+		}
+		return c;
+	}
+}
+
