@@ -215,16 +215,19 @@ var initial=zoom;
  }
 
 var innerDiv = document.getElementById("innerDiv");
-var top = stripPx(innerDiv.style.top);
-var left = stripPx(innerDiv.style.left);
-//var x = varX - left;
-//var y = varY - top;
-var x = varX- 500;
-var y = varY - 400;
+var top = parseInt(stripPx(innerDiv.style.top));
+var left = parseInt(stripPx(innerDiv.style.left));
+
+var x = varX - left -100;
+var y = varY - top - 100;
+//var x = 0;
+//var y = 0;
 var tileX= Math.floor((varX- left)/tileSize);
 var tileY = Math.floor((varY- top)/tileSize);
+var tempTop;
+var tempLeft;
 
-alert("X coords: " + parseInt(x) + ", Y coords: " + parseInt(y) + " left: " + left +  " top: " + top + " tileSize: " + tileSize + " tileX: " + tileX + "tileY: " + tileY);
+//alert("X coords: " + parseInt(x) + ", Y coords: " + parseInt(y) + " left: " + left +  " top: " + top + " tileSize: " + tileSize + " tileX: " + tileX + "tileY: " + tileY);
 //var topper = y-y+600;
 //var lefter = x-x+800;
 
@@ -232,8 +235,9 @@ if(initial==0)
 {
 //  var tempTop = top + (2-tileY)*200;
 //  var tempLeft = left + (2-tileX)*200 +100;
-  var tempTop = 400-2*parseInt(y)-100;
-  var tempLeft = 300 - 2*parseInt(x) +100; 
+
+tempTop = 300-2*parseInt(y);
+tempLeft = 400 - 2*parseInt(x); 
 //  var tempTop = 400-100;
 //  var tempLeft = 300 + 100; 
 
@@ -241,9 +245,6 @@ if(initial==0)
 //  var tempTop = -1100;
 //  var tempLeft = -1500; 
  
-  innerDiv.style.top= tempTop+"px"; 
-  innerDiv.style.left= tempLeft + "px";
-
 //innerDiv.style.top = -300+"px";
 //innerDiv.style.left = -400+"px";
 
@@ -252,10 +253,12 @@ else if(initial==1)
 {
 //  var tempTop = top + (2-tileY)*200;
   //  var tempLeft = left + (2-tileX)*200 +100;
-  var tempTop = 800-(2*y);
-  var tempLeft = 600 -(2*x);
-  innerDiv.style.top= tempTop+"px"; 
-  innerDiv.style.left= tempLeft+ "px";  
+ // var tempTop = 800-(2*y);
+//  var tempLeft = 600 -(2*x);
+
+   tempTop = 300-(2*y);
+   tempLeft = 400 -(2*x);
+
 }
 else
 {
@@ -263,16 +266,20 @@ innerDiv.style.top = 0+"px";
 innerDiv.style.left = 0+"px";
 
 }
+ innerDiv.style.top= tempTop+"px"; 
+ innerDiv.style.left= tempLeft+ "px";  
 
 var imgs = innerDiv.getElementsByTagName("img");
 while (imgs.length > 0) innerDiv.removeChild(imgs[0]);
 setInnerDivSize(zoomSizes[zoom][0], zoomSizes[zoom][1]);
 //if (document.getElementById("pushPin")) togglePushPin();
-alert("top : " + innerDiv.style.top + "left: " + innerDiv.style.left);
+
+//alert("top : " + innerDiv.style.top + "left: " + innerDiv.style.left + "temptop: " + tempTop + "templeft: " + tempLeft);
+
 
 checkTiles();
 
-alert("top : " + innerDiv.style.top + "left: " + innerDiv.style.left);
+//alert("top : " + innerDiv.style.top + "left: " + innerDiv.style.left + "temptop: " + tempTop + "templeft: " + tempLeft + "counter: " + counter);
 var inner = document.getElementById("innerDiv");
 //innerDiv.style.top = topper + "px";
 //innerDiv.style.left = lefter + "px";
