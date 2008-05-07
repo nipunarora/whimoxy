@@ -103,9 +103,13 @@ outerDiv.onmousedown = startMove;
 outerDiv.onmousemove = processMove;
 outerDiv.onmouseup = stopMove;
 var zoomOut = document.getElementById("zoomOut");
-var img = document.createElement("img");
-img.src = "Zoom_Out.gif";
-zoomOut.appendChild(img);
+var zoomIn = document.getElementById("zoomIn");
+var img1 = document.createElement("img1");
+var img2 = document.createElement("img2");
+img1.src = "Zoom_Out.gif";
+img2.src = "Zoom_In.gif"
+zoomOut.appendChild(img1);
+zoomIn.appendChild(img2);
 
 // necessary to enable dragging on IE
 //outerDiv.ondragstart = function() { return false; }
