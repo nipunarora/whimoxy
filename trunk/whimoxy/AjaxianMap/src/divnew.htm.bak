@@ -14,25 +14,67 @@ top: 100px;
 left: 100px;
 overflow: hidden;
 }
-#innerDiv {
+#innerDiv{
 position: absolute;
 left: 0px;
 top: 0px;
 }
 #zoomIn{
 position: relative;
-top: 10px;
-left: 10px;
+top: 200px;
+left: 200px;
+
+height: 22px;
+width: 22px;
+z-Index: 0;
 }
 #zoomOut{
 position: relative;
-top: 30px;
-left: 10px;
+top: 0px;
+height: 22px;
+width: 22px;
+left: 0px;
+z-Index:0;
+}
+
+#upArrow{
+position: absolute;
+top: 45px;
+left: 35px;
+height: 22px;
+width: 22px;
+z-Index:0;
+}
+
+#downArrow{
+position: absolute;
+top: 79px;
+left: 35px;
+height: 22px;
+width: 22px;
+z-Index:0;
+}
+#leftArrow{
+position: absolute;
+top: 62px;
+left: 15px;
+height: 22px;
+width: 22px;
+z-Index:0;
+}
+
+#rightArrow{
+position: absolute;
+top: 62px;
+left: 55px;
+height: 22px;
+width: 22px;
+z-Index:0;
 }
 #newsBarDiv {
-position: = absolute;
-left = 710px;
-top = 100px;
+position:  absolute;
+left: 710px;
+top: 100px;
 }
 #pinDialog{
 position : absolute;    
@@ -41,28 +83,20 @@ top: 100;
 opacity: 1.0;
 width : 310px;
 height: 190px;
-zIndex : 2;
+z-Index : 2;
 }
 #toggleZoomDiv {
 position: absolute;
-top: 10px;
-left: 10px;
+top: 210px;
+left: 210px;
 z-index: 1;
 width: 72px;
 height: 30px;
 }
-#leftArrow{
-position: relative;
-top: 5px;
-left: 50px;
-z-index: 1;
-width: 20px;
-height: 18px;
-}
 #togglePushPinDiv {
 position: absolute;
-top: 10px;
-left: 87px;
+top: 210px;
+left: 287px;
 z-index: 1;
 width: 72px;
 height: 30px;
@@ -102,14 +136,55 @@ outerDiv.onmousedown = startMove;
 //dragging =true;
 outerDiv.onmousemove = processMove;
 outerDiv.onmouseup = stopMove;
-var zoomOut = document.getElementById("zoomOut");
-var zoomIn = document.getElementById("zoomIn");
-var img1 = document.createElement("img1");
-var img2 = document.createElement("img2");
-img1.src = "Zoom_Out.gif";
-img2.src = "Zoom_In.gif"
-zoomOut.appendChild(img1);
-zoomIn.appendChild(img2);
+
+var zOut = document.getElementById("zOut");
+var img2 = document.createElement("img");
+img2.style.position = "relative";
+img2.style.left = 0 + "px";
+img2.style.top = 0 + "px";
+img2.style.zIndex = 0;
+img2.src = "Zoom_Out.png";
+zOut.appendChild(img2);
+
+var zIn = document.getElementById("zIn");
+var img1 = document.createElement("img");
+img1.style.position = "relative";
+img1.style.left = 0 + "px";
+img1.style.top = 0 + "px";
+img1.style.zIndex = 0;
+img1.src = "Zoom_In.png";
+zIn.appendChild(img1);
+
+var leftArrow = document.getElementById("leftArrow");
+var imgLeft = document.createElement("img");
+imgLeft.style.position = "relative";
+imgLeft.style.left = 0 + "px";
+imgLeft.style.top = 0 + "px";
+imgLeft.style.zIndex = 0;
+imgLeft.src = "Left_Arrow.gif";
+leftArrow.appendChild(imgLeft);
+
+
+var rightArrow = document.getElementById("rightArrow");
+var imgRight = document.createElement("img");
+imgRight.src = "Right_Arrow.gif";
+rightArrow.appendChild(imgRight);
+
+
+var upArrow = document.getElementById("upArrow");
+var imgUp = document.createElement("img");
+imgUp.style.position = "relative";
+imgUp.style.left = 0 + "px";
+imgUp.style.top = 0 + "px";
+imgUp.style.zIndex = 0;
+imgUp.src = "Up_Arrow.gif";
+upArrow.appendChild(imgUp);
+
+
+var downArrow = document.getElementById("downArrow");
+var imgDown = document.createElement("img");
+imgDown.src = "Down_Arrow.gif";
+downArrow.appendChild(imgDown);
 
 // necessary to enable dragging on IE
 //outerDiv.ondragstart = function() { return false; }
@@ -624,6 +699,7 @@ function GetObject(id){
 }
 
 
+//Zoom in function for the button
 function zoomin()
 {
 	if (zoom !=2)
@@ -631,20 +707,25 @@ function zoomin()
 		var innerDiv= document.getElementById("innerDiv");
 		var top = stripPx(innerDiv.style.top);
 		var left = stripPx(innerDiv.style.left);
-		innerDiv.style.top = (top*2) + "px";
-		innerDiv.style.left =(left*2) + "px";
+		toggleZoom(400,300);
+		/*
 		if(zoom ==0)
 		{
 			zoom =1;
+			innerDiv.style.top = (top-300) + "px";
+			innerDiv.style.left =(left-400) + "px";
 		}
 		else
 		{
 			zoom =2;
+			innerDiv.style.top = (top-600) + "px";
+			innerDiv.style.left =(left-800) + "px";
 		}
+		*/
 	}
-	checkTiles();
+	//checkTiles();
 }
-
+//Zoom out function for the button
 function zoomout()
 {
 	if (zoom !=0)
@@ -652,18 +733,57 @@ function zoomout()
 		var innerDiv= document.getElementById("innerDiv");
 		var top = stripPx(innerDiv.style.top);
 		var left = stripPx(innerDiv.style.left);
-		innerDiv.style.top = Math.floor(top/2) + "px";
-		innerDiv.style.left = Math.floor(left/2) + "px";
 		if(zoom ==1)
 		{
+		
+		innerDiv.style.top = (Math.floor(top/2)+150) + "px";
+		innerDiv.style.left = (Math.floor(left/2)+200) + "px";
 			zoom =0;
 		}
 		else
 		{
+		
+		innerDiv.style.top = (Math.floor(top/2)+150) + "px";
+		innerDiv.style.left = (Math.floor(left/2)+200) + "px";
 			zoom =1;
 		}
 	}
 	checkTiles();
+}
+
+function moveLeft()
+{
+	var innerDiv = document.getElementById("innerDiv");
+	var left = stripPx(innerDiv.style.left);
+	innerDiv.style.left = (left-100)+ "px";	
+	checkTiles();
+}
+
+
+function moveRight()
+{
+	var innerDiv = document.getElementById("innerDiv");
+	var left = stripPx(innerDiv.style.left);
+	innerDiv.style.left = (left+100)+ "px";	
+		checkTiles();
+}
+
+
+function moveUp()
+{
+	var innerDiv = document.getElementById("innerDiv");
+	var top = stripPx(innerDiv.style.top);
+	innerDiv.style.top = (top-100)+ "px";	
+		checkTiles();
+}
+
+
+function moveDown()
+{
+	var innerDiv = document.getElementById("innerDiv");
+	var top = stripPx(innerDiv.style.top);
+	innerDiv.style.top = (top+100)+ "px";	
+		checkTiles();
 }
 
 function moveto(){
@@ -708,14 +828,16 @@ function moveto(){
 </p>
 
 <div id="outerDiv">  
-    <div id="innerDiv" ondblclick="toggleZoom(event.clientX, event.clientY + document.body.scrollTop)"  onmousedown="checkClickType(event, event.clientX, event.clientY + document.body.scrollTop)"></div>     
-<div id= "zoomOut" onclick = "zoomout()"></div>
-<div id= "zoomIn" onclick = "zoomin()"></div>
+<div id="innerDiv" ondblclick="toggleZoom(event.clientX, event.clientY + document.body.scrollTop)"  onmousedown="checkClickType(event, event.clientX, event.clientY + document.body.scrollTop)"></div>     
 <div id="newsBarDiv"></div>
 <div id ="pinDialog"></div>
+<div id= "zIn" onclick = "zoomin()"></div>
+<div id= "zOut" onclick = "zoomout()"></div>
+<div id= "leftArrow" onclick = "moveLeft()"></div>
+<div id= "rightArrow" onclick = "moveRight()"></div>
+<div id= "upArrow" onclick = "moveUp()"></div>
+<div id= "downArrow" onclick = "moveDown()"></div>
 </div>
-
-
 
 <input type = "text" name = "cityName" value = "" onblur = "moveto()" id = "textbox">
 
@@ -811,7 +933,7 @@ OH - Columbus, Ohio Ohio
 OK - Oklahoma City, Oklahoma Oklahoma
 OR - Salem, Oregon Oregon
 PA - Harrisburg, Pennsylvania Pennsylvania
-	RI - Providence, Rhode Island Rhode Island
+RI - Providence, Rhode Island Rhode Island
 SC - Columbia, South Carolina South Carolina
 SD - Pierre, South Dakota South Dakota
 TN - Nashville, Tennessee Tennessee
@@ -827,4 +949,3 @@ WY - Cheyenne, Wyoming Wyoming
 
 
 -->
-
